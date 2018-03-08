@@ -27,3 +27,7 @@ let python_highlight_all = 1
 
 " highlight all terms same as that under cursor when pressing '*'
 set hlsearch
+
+" Set the cursor to to a '|' when in insert mode
+let &t_SI = "\e[6 q"
+let &t_EI = "\e[2 q"
