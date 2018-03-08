@@ -1,9 +1,29 @@
-inoremap jk <ESC>
-let mapleader = "\<Space>"
-filetype plugin indent on
-syntax on
-set encoding=utf-8
-let &t_SI = "\<esc>[5 q"
-let &t_SR = "\<esc>[5 q"
-let &t_EI = "\<esc>[2 q"
-:set hlsearch
+" enable syntax highlighting
+syntax enable
+
+" show line numbers
+set number
+
+" set tabs to have 4 spaces
+set ts=4
+
+" indent when moving to the next line while writing code
+set autoindent
+
+" expand tabs into spaces
+set expandtab
+
+" when using the >> or << commands, shift lines by 4 spaces
+set shiftwidth=4
+
+" show a visual line under the cursor's current line
+set cursorline
+
+" show the matching part of the pair for [] {} and ()
+set showmatch
+
+" enable all Python syntax highlighting features
+let python_highlight_all = 1
+
+" highlight all terms same as that under cursor when pressing '*'
+set hlsearch

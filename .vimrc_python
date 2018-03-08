@@ -1,0 +1,125 @@
+set nocompatible              " required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+
+" add all your plugins here (note older versions of Vundle
+" used Bundle instead of Plugin)
+
+Plugin 'tmhedberg/SimpylFold'  "fix when line indents cause too muchfolding
+Plugin 'vim-scripts/indentpython.vim' "fix auto indent problems in Python
+Plugin 'Valloric/YouCompleteMe' "Python auto-complete Dependencies: https://github.com/Valloric/YouCompleteMe#ubuntu-linux-x64
+Plugin 'vim-syntastic/syntastic' "Syntax highlighting
+Plugin 'nvie/vim-flake8' "PEP8 checking
+Plugin 'jnurmine/Zenburn' "Python color scheme for terminal mode
+Plugin 'altercation/vim-colors-solarized' "Python color scheme for GUI mode
+Plugin 'jistr/vim-nerdtree-tabs' "File browsing with tabs
+Plugin 'kien/ctrlp.vim' "Super searching with Ctrl-P
+Plugin 'tpope/vim-fugitive' "GIT integration http://vimcasts.org/episodes/fugitive-vim---a-complement-to-command-line-git/
+Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'} "Powerline http://powerline.readthedocs.org/en/latest/
+
+
+" ...
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+" Map leader key to space
+:let mapleader = ","
+
+" Control how the screen splits
+set splitbelow
+set splitright
+
+" Move between Split panes with the VIM movement paradigm, just add Ctrl
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+" Enable folding
+set foldmethod=indent
+set foldlevel=99
+
+" Enable folding with the spacebar
+nnoremap <space> za
+
+" Preview docstrings in folded code
+let g:SimpylFold_docstring_preview=1
+
+" Python PEP8 indentation 
+" This will give you the standard four spaces when you hit tab, ensure your line length doesn’t go beyond 80 characters, and store the file in a unix format so you don’t get a bunch of conversion issues when checking into GitHub and/or sharing with other users.
+au BufNewFile,BufRead *.py
+    \ set tabstop=4
+    \ set softtabstop=4
+    \ set shiftwidth=4
+    \ set textwidth=79
+    \ set expandtab
+    \ set autoindent
+    \ set fileformat=unix
+
+" Line indentation for frontend   
+au BufNewFile,BufRead *.js, *.html, *.css
+    \ set tabstop=2
+    \ set softtabstop=2
+    \ set shiftwidth=2
+
+" Use the below highlight group when displaying bad whitespace is desired.
+highlight BadWhitespace ctermbg=red guibg=red 
+" Display tabs at the beginning of a line in Python mode as bad.
+au BufRead,BufNewFile *.py,*.pyw match BadWhitespace /^\t\+/
+" Make trailing whitespace be flagged as bad.
+au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+
+" Utf-8 support
+set encoding=utf-8
+
+" Python auto-complete (youcompleteme) customizations
+let g:ycm_autoclose_preview_window_after_completion=1
+map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+" Python Virtualenv Support
+"python with virtualenv support
+py3 << EOF
+import os
+import sys
+if 'VIRTUAL_ENV' in os.environ:
+  project_base_dir = os.environ['VIRTUAL_ENV']
+  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+  execfile(activate_this, dict(__file__=activate_this))
+EOF
+
+" Syntax highlighting for Python
+let python_highlight_all=1
+syntax on
+
+" Configure colour sheme
+if has('gui_running')
+  set background=dark
+  colorscheme solarized
+else
+  colorscheme zenburn
+endif
+
+" Switch between solarized light/dark mode with F5
+call togglebg#map("<F5>")
+
+" Ignore .pyc files in file browser
+let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
+
+" Show line numbers
+set nu
+
+" Make system clipboard the default
+set clipboard=unnamed
+
+
